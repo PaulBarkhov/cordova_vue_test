@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  db:
+    build: ./db
+    # image: pavelbarhov/test_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test
+    restart: always
+  web:
+    build: ./web
+    # image: pavelbarhov/test_web
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_HOST: db
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    restart: on-failure
+  
